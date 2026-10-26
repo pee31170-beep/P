@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ต้นทุน ICE vs EV</title>
+  <meta name="description" content="เปรียบเทียบต้นทุนพลังงานต่อกิโลเมตร รถสันดาป vs รถไฟฟ้า ปี 2569 — ราคาน้ำมัน ค่าไฟบ้าน และค่าชาร์จสถานีสาธารณะ">
+  <meta name="theme-color" content="#f7f6f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1b1b1a" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Noto+Serif+Thai:wght@400&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">ICE vs EV · 2569</span>
+  <span class="spacer"></span>
+  <button type="button" class="iconbtn" id="share" title="คัดลอกลิงก์พร้อมค่าที่ตั้งไว้">แชร์</button>
+  <button type="button" class="iconbtn" id="theme" title="สลับธีมสว่าง/มืด" aria-label="สลับธีม">◐</button>
+  <button type="button" class="iconbtn" id="install" hidden>ติดตั้งแอป</button>
+</div>
+
+<main id="dash-root" data-dash-state="loading">
+<div class="ev">
+  <header>
+    <h1 id="title">ต้นทุนพลังงานต่อกิโลเมตร: รถสันดาป vs รถไฟฟ้า</h1>
+    <p class="lede" id="takeaway">ที่อัตราสิ้นเปลือง <b class="lx-ice-kmpl">—</b> กม./ลิตร และ <b class="lx-ev-kwh">—</b> kWh/100 กม. รถสันดาป (แก๊สโซฮอล์ 95 ราคาวันนี้) ใช้เงิน <b class="lx-ice-today">—</b> บาท/กม. ขณะที่รถไฟฟ้าชาร์จบ้าน TOU Off-Peak ใช้ <b class="lx-ev-home">—</b> บาท/กม. ถูกกว่า <b class="lx-save-pct">—</b>% หรือประหยัดราว <b class="lx-save-year">—</b> บาท/ปี ที่ <b class="lx-km">—</b> กม./ปี</p>
+  </header>
+
+  <section class="card" id="inputs">
+    <h2>ปรับค่าที่ใช้คำนวณ</h2>
+    <p class="note">พิมพ์ค่าหรือเลื่อนแถบ ทุกตัวเลขและกราฟด้านล่างคำนวณใหม่ทันที (ค่าที่ตั้งจะถูกจำไว้ในเครื่องนี้)</p>
+    <div class="controls">
+      <div class="ctl"><label for="in-ice">อัตราสิ้นเปลืองรถสันดาป</label><div class="row"><input id="in-ice" type="number" min="3" max="40" step="0.1" inputmode="decimal"><span class="unit">กม./ลิตร</span></div><input id="rg-ice" type="range" min="5" max="30" step="0.5" aria-label="อัตราสิ้นเปลืองรถสันดาป"></div>
+      <div class="ctl"><label for="in-ev">อัตราสิ้นเปลืองรถไฟฟ้า</label><div class="row"><input id="in-ev" type="number" min="5" max="40" step="0.1" inputmode="decimal"><span class="unit">kWh/100 กม.</span></div><input id="rg-ev" type="range" min="8" max="30" step="0.1" aria-label="อัตราสิ้นเปลืองรถไฟฟ้า"></div>
+      <div class="ctl"><label for="in-km">ระยะทางต่อปี</label><div class="row"><input id="in-km" type="number" min="1000" max="200000" step="1000" inputmode="numeric"><span class="unit">กม./ปี</span></div><input id="rg-km" type="range" min="5000" max="80000" step="1000" aria-label="ระยะทางต่อปี"></div>
+      <button class="reset" type="button" id="reset">คืนค่าเริ่มต้น (14 กม./ล. · 12.8 kWh · 20,000 กม.)</button>
+    </div>
+    <p class="ctl-note">ชาร์จบ้านรวม Ft <span class="lx-ft">—</span> บาท/หน่วย, VAT 7% และประสิทธิภาพชาร์จ AC <span class="lx-eff">—</span> · ราคาน้ำมันและค่าชาร์จ ณ 26 ต.ค. 2569</p>
+  </section>
+
+  <section class="tiles" id="kpis">
+    <div class="tile"><div class="k">แก๊สโซฮอล์ 95 · ราคาวันนี้</div><div class="v lx-ice-today">—</div><div class="u">บาท/กม.</div></div>
+    <div class="tile"><div class="k">แก๊สโซฮอล์ 95 · เฉลี่ยปี 2569</div><div class="v lx-ice-avg">—</div><div class="u">บาท/กม.</div></div>
+    <div class="tile good"><div class="k">EV ชาร์จบ้าน · TOU Off-Peak</div><div class="v lx-ev-home">—</div><div class="u">บาท/กม.</div></div>
+    <div class="tile"><div class="k">EV สถานีสาธารณะ · ถูกสุด–แพงสุด</div><div class="v lx-ev-pub">—</div><div class="u">บาท/กม.</div></div>
+    <div class="tile good"><div class="k">ประหยัดต่อปี (บ้าน TOU vs น้ำมันวันนี้)</div><div class="v lx-save-year">—</div><div class="u">บาท/ปี</div></div>
+  </section>
+
+  <section class="card" id="ranking">
+    <h2>บาท/กม. ทุกทางเลือก เรียงจากถูกไปแพง</h2>
+    <p class="note">ตัวเลขท้ายแท่ง = บาท/กม. · บาท/ปี ตามระยะทางที่ตั้งไว้ · สถานีสาธารณะคือราคาหน้าตู้</p>
+    <div class="legend" id="rank-legend"></div>
+    <div class="chart" id="rank-chart"></div>
+  </section>
+
+  <section class="card" id="trend">
+    <h2>ราคาน้ำมันขายปลีก กทม. ตลอดปี 2569</h2>
+    <p class="note">บาท/ลิตร · ราคาบางจาก ณ วันที่ปรับ (9 ม.ค.–26 ต.ค. 2569) · เส้นขั้นบันไดเพราะราคาคงที่จนประกาศปรับครั้งถัดไป</p>
+    <div class="chart line" id="trend-chart"></div>
+  </section>
+
+  <section class="card" id="fuel-table-card">
+    <h2>รถสันดาป: ต่ำสุด–เฉลี่ย–สูงสุด ปี 2569 และวันนี้</h2>
+    <p class="note">ราคาเป็นบาท/ลิตร · บาท/กม. = ราคา ÷ <span class="lx-ice-kmpl">—</span> กม./ลิตร · เฉลี่ยถ่วงด้วยจำนวนวันที่แต่ละราคามีผล</p>
+    <div class="scroll"><table id="fuel-table">
+      <thead><tr><th>ชนิดน้ำมัน</th><th>ต่ำสุด</th><th>สูงสุด</th><th>เฉลี่ย</th><th>วันนี้</th><th>ต่ำสุด/กม.</th><th>เฉลี่ย/กม.</th><th>สูงสุด/กม.</th><th>วันนี้/กม.</th></tr></thead>
+      <tbody></tbody></table></div>
+  </section>
+
+  <div class="grid">
+    <section class="card" id="ev-table-card">
+      <h2>EV: สถานีชาร์จสาธารณะ</h2>
+      <p class="note">บาท/กม. = อัตรา × <span class="lx-ev-kwh">—</span> ÷ 100 · Off-Peak ส่วนใหญ่ 22:00–09:00 จ.–ศ. และทั้งวันเสาร์–อาทิตย์/วันหยุด</p>
+      <div class="scroll"><table id="ev-table">
+        <thead><tr><th>ผู้ให้บริการ</th><th class="t">หัวชาร์จ</th><th>Off-Peak บาท/kWh</th><th>Peak บาท/kWh</th><th>Off-Peak/กม.</th><th>Peak/กม.</th><th class="t">ความน่าเชื่อถือ</th></tr></thead>
+        <tbody></tbody></table></div>
+    </section>
+    <section class="card" id="home-table-card">
+      <h2>EV: ชาร์จที่บ้าน ทุกรูปแบบมิเตอร์</h2>
+      <p class="note">อัตราหน่วยส่วนเพิ่ม · รวม Ft, VAT และสูญเสียจากการชาร์จ · ยังไม่รวมค่าบริการรายเดือน</p>
+      <div class="scroll"><table id="home-table">
+        <thead><tr><th>มิเตอร์</th><th class="t">ช่วงหน่วย/เวลา</th><th>ค่าพลังงานฐาน</th><th>รวม Ft+VAT</th><th>บาท/กม.</th></tr></thead>
+        <tbody></tbody></table></div>
+    </section>
+  </div>
+
+  <section class="card" id="sources">
+    <h2>แหล่งข้อมูล</h2>
+    <ul class="src">
+      <li><b>ราคาน้ำมันบางจาก ปี 2569</b> — ราคาขายปลีก กทม. ทุกวันที่มีการปรับราคา 9 ม.ค.–21 ต.ค. 2569 จากหน้าราคาน้ำมันย้อนหลังของบางจาก <a href="data/fuel_prices_2569.csv" download>CSV</a></li>
+      <li><b>ราคาน้ำมันวันนี้ 26 ต.ค. 69</b> — ราคาขายปลีก ปตท./บางจาก ตามที่ไทยรัฐและ PPTV รายงาน <a href="data/fuel_today.csv" download>CSV</a></li>
+      <li><b>อัตราค่าชาร์จสถานีสาธารณะ</b> — PEA VOLTA, EV Station PluZ, EA Anywhere, MEA EV, EleX by EGAT, Tesla Supercharger จากประกาศและข่าว <a href="data/ev_public_rates.csv" download>CSV</a></li>
+      <li><b>ค่าไฟบ้านทุกประเภทมิเตอร์</b> — อัตรา MEA/PEA ตั้งแต่บิล ก.ย. 2569 (ก่อน Ft และ VAT) <a href="data/home_rates.csv" download>CSV</a></li>
+      <li><b>ข้อสมมติการคำนวณ</b> — Ft ก.ย.–ธ.ค. 2569 จาก กกพ., VAT 7%, ประสิทธิภาพชาร์จ AC 90% <a href="data/assumptions.csv" download>CSV</a></li>
+    </ul>
+  </section>
+</div>
+</main>
+
+<script src="vendor/d3.v7.9.0.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

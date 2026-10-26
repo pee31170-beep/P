@@ -1,0 +1,10 @@
+id,provider,tier,offpeak,peak,effective,confidence
+volta25,PEA VOLTA,25 kW,4.9,5.9,1 พ.ค. 2569,ยืนยัน
+volta180,PEA VOLTA,DC 50–180 kW,5.9,6.9,1 พ.ค. 2569,ยืนยัน
+volta360,PEA VOLTA,DC 300–360 kW,6.9,7.9,1 พ.ค. 2569,ยืนยัน
+pluz180,EV Station PluZ (OR),DC 40–180 kW,6.1,7.4,1 ก.ย. 2569,ยืนยัน
+pluzhub,EV Station PluZ (OR),EV HUB 180–240 kW,6.4,7.7,1 ก.ย. 2569,ยืนยัน
+ea,EA Anywhere,DC อัตราเริ่มต้น,7.08,7.08,1 พ.ค. 2569,ยืนยัน (ต่างตามสถานี)
+mea,MEA EV,AC/DC อัตราเดียว,7.5,7.5,ข้อมูลปี 2569,ปานกลาง
+elex,EleX by EGAT,DC อัตราเดียว,7.5,7.5,ประกาศล่าสุดที่พบ,ต่ำ – ตรวจในแอป
+tesla,Tesla Supercharger,V3 250 kW,10.1,10.1,ไม่ระบุวันที่,ต่ำ – ตรวจในแอป
